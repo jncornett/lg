@@ -40,3 +40,7 @@ func (w Wrap) Log(lvl Level, args ...interface{}) {
 func (w Wrap) IsEnabledFor(lvl Level) bool {
 	return IsEnabledFor(w, lvl)
 }
+
+func IsEnabledFor(lgf Loggerf, lvl Level) bool {
+	return lgf.GetLevel() <= lvl
+}

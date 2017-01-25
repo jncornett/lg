@@ -6,9 +6,7 @@ import (
 )
 
 type Logger struct {
-	io.Writer
-	Level
-	Formatter
+	Loggerf
 	Wrap
 }
 
@@ -20,22 +18,12 @@ func New(w io.Writer, f Formatter, lvl Level) *Logger {
 		f = DefaultFormatter
 	}
 	lg := &Logger{
-		Writer:    w,
-		Level:     lvl,
-		Formatter: f,
+		Loggerf: &Writer{
+			Writer:    w,
+			Formatter: f,
+			Level:     lvl,
+		},
 	}
-	lg.Wrap.Loggerf = lg
+	lg.Wrap.Loggerf = lg.Loggerf
 	return lg
-}
-
-func (b *Logger) Logf(lvl Level, format string, args ...interface{}) {
-	if IsEnabledFor(b, lvl) {
-		b.Format(b, NewRecord(b.Level, format, args...))
-	}
-}
-
-func (b *Logger) GetLevel() Level { return b.Level }
-
-func IsEnabledFor(lg Loggerf, lvl Level) bool {
-	return lg.GetLevel() <= lvl
 }
