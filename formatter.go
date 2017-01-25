@@ -1,19 +1,25 @@
 package lg
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"time"
+)
 
 type Formatter interface {
-	Format(Record) string
+	Format(io.Writer, Record)
 }
 
-type FormatterFunc func(Record) string
+type FormatterFunc func(io.Writer, Record)
 
-func (f FormatterFunc) Format(r Record) string { return f(r) }
+func (f FormatterFunc) Format(w io.Writer, r Record) { f(w, r) }
 
-var DefaultFormatter FormatterFunc = func(r Record) string {
-	return fmt.Sprintf(
-		"%v - %v - %v",
-		r.Time,
+var DefaultFormatter FormatterFunc = func(w io.Writer, r Record) {
+	fmt.Fprintf(
+		w,
+		"%v.%v %v %v\n",
+		r.Time.Format("2006-01-02 15:04:05"),
+		r.Time.Nanosecond()/int(time.Millisecond),
 		r.Level,
 		fmt.Sprintf(r.Format, r.Args...),
 	)

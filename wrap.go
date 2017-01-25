@@ -3,7 +3,7 @@ package lg
 import "fmt"
 
 type Wrap struct {
-	Logger
+	Loggerf
 }
 
 func (w Wrap) Debug(args ...interface{}) { w.Log(LvlDebug, args...) }

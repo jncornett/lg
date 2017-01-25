@@ -2,13 +2,13 @@ package lg
 
 type Elevator struct {
 	Offset int
-	Logger
+	Loggerf
 }
 
 func (e *Elevator) Logf(lvl Level, format string, args ...interface{}) {
-	e.Logger.Logf(e.Logger.GetLevel()+Level(e.Offset), format, args...)
+	e.Loggerf.Logf(e.Loggerf.GetLevel()+Level(e.Offset), format, args...)
 }
 
 func (e *Elevator) GetLevel() Level {
-	return e.Logger.GetLevel() - Level(e.Offset)
+	return e.Loggerf.GetLevel() - Level(e.Offset)
 }
