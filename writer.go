@@ -10,7 +10,7 @@ type Writer struct {
 
 func (w *Writer) Logf(lvl Level, format string, args ...interface{}) {
 	if IsEnabledFor(w, lvl) {
-		w.Format(w, NewRecord(w.Level, format, args...))
+		w.Format(w, NewRecord(lvl, format, args...))
 	}
 }
 
